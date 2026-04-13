@@ -465,11 +465,11 @@ tr.hidden-row { display:none; }
             <button class="edit-name-btn" onclick="editName()" title="Modifica nome cliente">✏️</button>
           </span>
         </h1>
-        <p>Report comparativo 2026 vs 2025 · Dati effettivi: Gennaio–Febbraio 2026</p>
+        <p id="headerSubtitle">Report comparativo 2026 vs 2025 · Dati effettivi: Gennaio–Febbraio 2026</p>
       </div>
     </div>
     <div class="header-right">
-      <div class="header-badge">Feb 2026</div>
+      <div class="header-badge" id="headerBadge">Feb 2026</div>
       <button class="print-btn" onclick="printDashboard()" title="Esporta PDF">🖨️ PDF</button>
       <button class="fs-btn" id="fsBtn" title="Fullscreen" onclick="toggleFullscreen()">⛶</button>
       <button class="dm-btn" id="dmBtn" title="Modalità scura" onclick="toggleDark()">🌙</button>
@@ -477,13 +477,13 @@ tr.hidden-row { display:none; }
   </div>
   <!-- Mini-KPI strip (visibile quando si scrolla) -->
   <div class="header-mini" id="headerMini">
-    <div class="mini-kpi"><span class="mini-kpi-label">Fatturato YTD</span><span class="mini-kpi-val">€167.355</span></div>
+    <div class="mini-kpi"><span class="mini-kpi-label">Fatturato YTD</span><span class="mini-kpi-val" id="miniKpiFat">€167.355</span></div>
     <div class="mini-sep"></div>
-    <div class="mini-kpi"><span class="mini-kpi-label">Margine</span><span class="mini-kpi-val" style="color:#22c55e">42,5%</span></div>
+    <div class="mini-kpi"><span class="mini-kpi-label">Margine</span><span class="mini-kpi-val" id="miniKpiMarg" style="color:#22c55e">42,5%</span></div>
     <div class="mini-sep"></div>
-    <div class="mini-kpi"><span class="mini-kpi-label">Utile YTD</span><span class="mini-kpi-val" style="color:#22c55e">€15.246</span></div>
+    <div class="mini-kpi"><span class="mini-kpi-label">Utile YTD</span><span class="mini-kpi-val" id="miniKpiUt" style="color:#22c55e">€15.246</span></div>
     <div class="mini-sep"></div>
-    <div class="mini-kpi"><span class="mini-kpi-label">Δ Fatt. vs 2025</span><span class="mini-kpi-val" style="color:#22c55e">+4,6%</span></div>
+    <div class="mini-kpi"><span class="mini-kpi-label">Δ Fatt. vs 2025</span><span class="mini-kpi-val" id="miniKpiDelta" style="color:#22c55e">+4,6%</span></div>
   </div>
 </header>
 
@@ -533,7 +533,7 @@ tr.hidden-row { display:none; }
 
     <!-- Progress YTD vs 2025 annuo -->
     <div class="progress-section">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+      <div id="progressGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
         <div class="progress-card anim-card">
           <div class="progress-header">
             <span class="progress-title">Fatturato YTD vs Anno 2025</span>
@@ -562,7 +562,7 @@ tr.hidden-row { display:none; }
     </div>
 
     <!-- KPI principali -->
-    <div class="kpi-grid">
+    <div class="kpi-grid" id="mainKpiGrid">
       <div class="kpi-card blue anim-card">
         <div class="kpi-label">Fatturato Gen+Feb 2026</div>
         <div class="kpi-value" data-count="167355" data-prefix="€">€167.355</div>
@@ -589,39 +589,8 @@ tr.hidden-row { display:none; }
       </div>
     </div>
 
-    <!-- Delta mensili -->
-    <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(155px,1fr));">
-      <div class="kpi-card blue anim-card" style="padding:15px 18px">
-        <div class="kpi-label">Δ Fatturato Gen</div>
-        <div class="kpi-value" style="font-size:20px;color:var(--green)">+8,7%</div>
-        <div class="kpi-sub">+€7.251 vs 2025</div>
-      </div>
-      <div class="kpi-card blue anim-card" style="padding:15px 18px">
-        <div class="kpi-label">Δ Fatturato Feb</div>
-        <div class="kpi-value" style="font-size:20px;color:var(--green)">+0,6%</div>
-        <div class="kpi-sub">+€467 vs 2025</div>
-      </div>
-      <div class="kpi-card green anim-card" style="padding:15px 18px">
-        <div class="kpi-label">Margine Gen 2026</div>
-        <div class="kpi-value" style="font-size:20px;color:var(--green)">44,2%</div>
-        <div class="kpi-sub">era 30,4% nel 2025</div>
-      </div>
-      <div class="kpi-card green anim-card" style="padding:15px 18px">
-        <div class="kpi-label">Margine Feb 2026</div>
-        <div class="kpi-value" style="font-size:20px;color:var(--green)">40,6%</div>
-        <div class="kpi-sub">era 36,5% nel 2025</div>
-      </div>
-      <div class="kpi-card amber anim-card" style="padding:15px 18px">
-        <div class="kpi-label">Utile Gen 2026</div>
-        <div class="kpi-value" style="font-size:20px;color:var(--green)" data-count="10780" data-prefix="€">€10.780</div>
-        <div class="kpi-sub">era -€1.643 nel 2025</div>
-      </div>
-      <div class="kpi-card amber anim-card" style="padding:15px 18px">
-        <div class="kpi-label">Utile Feb 2026</div>
-        <div class="kpi-value" style="font-size:20px;color:var(--green)" data-count="4466" data-prefix="€">€4.466</div>
-        <div class="kpi-sub">era €1.876 nel 2025</div>
-      </div>
-    </div>
+    <!-- Delta mensili — generati dinamicamente da buildDeltaKpiGrid() -->
+    <div class="kpi-grid" id="deltaKpiGrid" style="grid-template-columns:repeat(auto-fit,minmax(155px,1fr));"></div>
 
     <!-- Charts -->
     <div class="charts-grid-2">
@@ -638,10 +607,7 @@ tr.hidden-row { display:none; }
     <div class="chart-card chart-card-dark anim-chart" style="margin-bottom:28px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
         <div class="chart-card-title" style="margin-bottom:0"><span class="dot"></span>Da Fatturato a Utile</div>
-        <div class="wf-toggle">
-          <button class="wf-btn active" id="wfBtnGen" onclick="switchWaterfall('gen',this)">Gennaio</button>
-          <button class="wf-btn" id="wfBtnFeb" onclick="switchWaterfall('feb',this)">Febbraio</button>
-        </div>
+        <div class="wf-toggle" id="wfToggle"></div>
       </div>
       <div class="chart-wrapper"><canvas id="chartWaterfall" height="200"></canvas></div>
     </div>
@@ -844,7 +810,7 @@ tr.hidden-row { display:none; }
       <div class="chart-card anim-chart"><div class="chart-card-title"><span class="dot" style="background:var(--green-mid)"></span>Margine di Contribuzione — 2026 vs 2025</div><div class="chart-wrapper"><canvas id="chartMargine" height="280"></canvas></div></div>
       <div class="chart-card anim-chart"><div class="chart-card-title"><span class="dot" style="background:var(--amber)"></span>Utile d'Esercizio — 2026 vs 2025</div><div class="chart-wrapper"><canvas id="chartUtile" height="280"></canvas></div></div>
     </div>
-    <div class="chart-card anim-chart" style="margin-bottom:28px"><div class="chart-card-title"><span class="dot" style="background:var(--blue-light)"></span>Da Fatturato a Utile — Febbraio 2026</div><div class="chart-wrapper"><canvas id="chartWaterfallFeb" height="200"></canvas></div></div>
+    <div class="chart-card anim-chart" style="margin-bottom:28px"><div class="chart-card-title"><span class="dot" style="background:var(--blue-light)"></span><span id="wfLastMonthTitle">Da Fatturato a Utile — Febbraio 2026</span></div><div class="chart-wrapper"><canvas id="chartWaterfallFeb" height="200"></canvas></div></div>
     <div class="section-title">Analisi Varianze — Top 5 Impatti Gen 2026 vs 2025</div>
     <div class="variance-grid">
       <div class="variance-card anim-card"><div class="variance-card-title" style="color:var(--green)"><span>✅</span> Top 5 — Impatto Positivo</div><div id="variance-pos"></div></div>
@@ -869,33 +835,13 @@ tr.hidden-row { display:none; }
       </div>
     </div>
     <div class="table-card">
-      <div style="padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div style="padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
         <div class="section-title" style="margin-bottom:0">Conto Economico Completo — Comparativo 2026 vs 2025</div>
-        <div style="font-size:11px;color:var(--text-3)">* Solo Gen-Feb 2026 dati effettivi</div>
+        <div class="month-toggle" id="ceMonthToggle" style="margin-bottom:0"></div>
       </div>
       <div class="table-scroll">
         <table id="ceTable">
-          <thead>
-            <tr>
-              <th rowspan="2" style="vertical-align:middle;min-width:200px">Voce</th>
-              <th colspan="2" class="th-grp-26 border-l-26">GENNAIO 2026</th>
-              <th colspan="2" class="th-grp-25 border-l-25">GENNAIO 2025</th>
-              <th colspan="2" class="th-grp-d  border-l-d">DELTA GEN</th>
-              <th colspan="2" class="th-grp-26 border-l-26">FEBBRAIO 2026</th>
-              <th colspan="2" class="th-grp-25 border-l-25">FEBBRAIO 2025</th>
-              <th colspan="2" class="th-grp-d  border-l-d">DELTA FEB</th>
-              <th colspan="2" class="th-grp-tot border-l-tot">TOTALI</th>
-            </tr>
-            <tr>
-              <th class="th-26 border-l-26">Valore</th><th class="th-26">%</th>
-              <th class="th-25 border-l-25">Valore</th><th class="th-25">%</th>
-              <th class="th-d  border-l-d">Δ €</th><th class="th-d">Δ %</th>
-              <th class="th-26 border-l-26">Valore</th><th class="th-26">%</th>
-              <th class="th-25 border-l-25">Valore</th><th class="th-25">%</th>
-              <th class="th-d  border-l-d">Δ €</th><th class="th-d">Δ %</th>
-              <th class="th-tot border-l-tot">2026</th><th class="th-tot">2025</th>
-            </tr>
-          </thead>
+          <thead id="thead-ce"></thead>
           <tbody id="tbody-ce"></tbody>
         </table>
       </div>
@@ -904,39 +850,149 @@ tr.hidden-row { display:none; }
 </main>
 
 <script>
-// ═══════════════════ DATA ═══════════════════
-const D = {
-  fatturato: {
-    pizzeria: {g26:49963,g25:45380,f26:40814,f25:40726,tot26:90777,tot25:597341},
-    bar:      {g26:19054,g25:17950,f26:16718,f25:16725,tot26:35771,tot25:242661},
-    cucina:   {g26:12655,g25:11308,f26:11101,f25:10440,tot26:23756,tot25:146831},
-    altro:    {g26: 1649,g25: 1651,f26: 2295,f25: 2528,tot26: 3944,tot25: 24168},
-    coperto:  {g26: 6966,g25: 6748,f26: 6141,f25: 6182,tot26:13107,tot25: 91514},
-    totale:   {g26:90288,g25:83037,f26:77068,f25:76601,tot26:167355,tot25:1102515}
+// ════════════════════════════════════════════════════════════════
+// 📊  DATI MENSILI — AGGIORNA QUI OGNI MESE
+//     Sostituisci il null con il valore reale del nuovo mese
+//     Ordine: [Gen, Feb, Mar, Apr, Mag, Giu, Lug, Ago, Set, Ott, Nov, Dic]
+// ════════════════════════════════════════════════════════════════
+const M26 = {
+  ricavi: {
+    //              Gen     Feb     Mar     Apr     Mag     Giu     Lug     Ago     Set     Ott     Nov     Dic
+    pizzeria: [ 49963,  40814,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    bar:      [ 19054,  16718,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    cucina:   [ 12655,  11101,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    coperto:  [  6966,   6141,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    altro:    [  1649,   2295,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
   },
   costiDiretti: {
-    food:   {g26:37737,g25:44443,f26:30851,f25:34850,tot26:68588,tot25:519674},
-    bar:    {g26: 3801,g25: 2186,f26: 3578,f25: 5113,tot26: 7379,tot25: 56393},
-    sala:   {g26: 8853,g25:11149,f26:11354,f25: 8671,tot26:20207,tot25:126602},
-    totale: {g26:50392,g25:57778,f26:45783,f25:48633,tot26:96174,tot25:702669}
-  },
-  margine: {
-    g26:39896,g25:25259,f26:31285,f25:27967,tot26:71181,tot25:399846,
-    pctG26:44.2,pctG25:30.4,pctF26:40.6,pctF25:36.5,pctTot26:42.5,pctTot25:36.3
+    //              Gen     Feb     Mar     Apr     Mag     Giu     Lug     Ago     Set     Ott     Nov     Dic
+    food:     [ 37737,  30851,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    bar:      [  3801,   3578,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    sala:     [  8853,  11354,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
   },
   costiIndiretti: {
-    locale:    {g26:12781,g25:15984,f26:13121,f25:13638,tot26:108161,tot25:184019},
-    marketing: {g26: 2493,g25: 2622,f26: 3079,f25: 3838,tot26:  5573,tot25: 40593},
-    afc:       {g26: 8502,g25: 8306,f26: 7985,f25: 7188,tot26: 19487,tot25: 92199},
-    banche:    {g26:  720,g25:  695,f26:  720,f25:  623,tot26:  8640,tot25:  8215},
-    imposte:   {g26:    0,g25:    0,f26:    0,f25:    0,tot26:     0,tot25:     0},
-    totale:    {g26:24496,g25:27606,f26:24905,f25:25287,tot26:141861,tot25:325026}
+    //              Gen     Feb     Mar     Apr     Mag     Giu     Lug     Ago     Set     Ott     Nov     Dic
+    locale:    [12781,  13121,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    marketing: [ 2493,   3079,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    afc:       [ 8502,   7985,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    banche:    [  720,    720,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    imposte:   [    0,      0,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+  },
+  imposte:     [ -4620,  -1914,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+};
+
+const M25 = {
+  ricavi: {
+    //              Gen     Feb     Mar  (aggiungi se hai i mensili 2025)
+    pizzeria: [ 45380,  40726,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    bar:      [ 17950,  16725,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    cucina:   [ 11308,  10440,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    coperto:  [  6748,   6182,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    altro:    [  1651,   2528,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+  },
+  costiDiretti: {
+    food:     [ 44443,  34850,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    bar:      [  2186,   5113,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    sala:     [ 11149,   8671,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+  },
+  costiIndiretti: {
+    locale:    [15984,  13638,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    marketing: [ 2622,   3838,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    afc:       [ 8306,   7188,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    banche:    [  695,    623,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+    imposte:   [    0,      0,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+  },
+  imposte:     [   704,   -804,   null,   null,   null,   null,   null,   null,   null,   null,   null,   null],
+  // Totali annui 2025 (anno completo — per confronto YTD vs anno pieno)
+  ann: {
+    fatturato:1102515, pizzeria:597341, bar:242661, cucina:146831, coperto:91514, altro:24168,
+    costiDiretti:702669, food:519674, barCost:56393, sala:126602,
+    costiIndiretti:325026, locale:184019, marketing:40593, afc:92199, banche:8215,
+    utile:52374
+  }
+};
+
+// ════════════════════════════════════════════════════════════════
+// ⚙️  CALCOLI AUTOMATICI — non modificare
+// ════════════════════════════════════════════════════════════════
+const ML = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+const N26 = M26.ricavi.pizzeria.filter(v => v !== null).length; // mesi con dati
+
+const s26  = arr => arr.slice(0, N26).reduce((a,v) => a+(v||0), 0);
+const s25m = arr => arr.slice(0, N26).reduce((a,v) => a+(v||0), 0);
+const rowSum = (...arrs) => Array.from({length:12}, (_,i) =>
+  arrs.every(a => a[i] !== null) ? arrs.reduce((s,a) => s+(a[i]||0), 0) : null
+);
+
+// Totali per riga (ogni mese)
+const fatTot26 = rowSum(M26.ricavi.pizzeria, M26.ricavi.bar, M26.ricavi.cucina, M26.ricavi.coperto, M26.ricavi.altro);
+const fatTot25 = rowSum(M25.ricavi.pizzeria, M25.ricavi.bar, M25.ricavi.cucina, M25.ricavi.coperto, M25.ricavi.altro);
+const cdTot26  = rowSum(M26.costiDiretti.food, M26.costiDiretti.bar, M26.costiDiretti.sala);
+const cdTot25  = rowSum(M25.costiDiretti.food, M25.costiDiretti.bar, M25.costiDiretti.sala);
+const ciTot26  = rowSum(M26.costiIndiretti.locale, M26.costiIndiretti.marketing, M26.costiIndiretti.afc, M26.costiIndiretti.banche, M26.costiIndiretti.imposte);
+const ciTot25  = rowSum(M25.costiIndiretti.locale, M25.costiIndiretti.marketing, M25.costiIndiretti.afc, M25.costiIndiretti.banche, M25.costiIndiretti.imposte);
+
+// YTD scalari
+const ytdFat26  = s26(fatTot26);  const ytdFat25  = s25m(fatTot25);
+const ytdCD26   = s26(cdTot26);   const ytdCD25   = s25m(cdTot25);
+const ytdCI26   = s26(ciTot26);   const ytdCI25   = s25m(ciTot25);
+const ytdMarg26 = ytdFat26 - ytdCD26;
+const ytdMarg25 = ytdFat25 - ytdCD25;
+const ytdCost26 = ytdCD26 + ytdCI26;
+const ytdCost25 = ytdCD25 + ytdCI25;
+const ytdImp26  = s26(M26.imposte);
+const ytdUt26   = ytdFat26 - ytdCost26 + ytdImp26;
+const ytdUt25   = M25.ann.utile;
+const ytdMargPct26 = +(ytdMarg26/ytdFat26*100).toFixed(1);
+const ytdMargPct25 = +(ytdMarg25/ytdFat25*100).toFixed(1);
+
+// Helper per mese specifico (con fallback 0)
+const mv = (arr,i) => arr[i] || 0;
+const mk = (a26,a25,ann25) => ({
+  g26:mv(a26,0), g25:mv(a25,0), f26:mv(a26,1), f25:mv(a25,1),
+  tot26:s26(a26), tot25:ann25
+});
+
+// D object — interfaccia identica a prima, calcolata dinamicamente
+const D = {
+  mesiDisponibili: N26,
+  fatturato: {
+    pizzeria: mk(M26.ricavi.pizzeria, M25.ricavi.pizzeria, M25.ann.pizzeria),
+    bar:      mk(M26.ricavi.bar,      M25.ricavi.bar,      M25.ann.bar),
+    cucina:   mk(M26.ricavi.cucina,   M25.ricavi.cucina,   M25.ann.cucina),
+    coperto:  mk(M26.ricavi.coperto,  M25.ricavi.coperto,  M25.ann.coperto),
+    altro:    mk(M26.ricavi.altro,    M25.ricavi.altro,    M25.ann.altro),
+    totale:   {g26:mv(fatTot26,0), g25:mv(fatTot25,0), f26:mv(fatTot26,1), f25:mv(fatTot25,1), tot26:ytdFat26, tot25:M25.ann.fatturato}
+  },
+  costiDiretti: {
+    food:   mk(M26.costiDiretti.food, M25.costiDiretti.food, M25.ann.food),
+    bar:    mk(M26.costiDiretti.bar,  M25.costiDiretti.bar,  M25.ann.barCost),
+    sala:   mk(M26.costiDiretti.sala, M25.costiDiretti.sala, M25.ann.sala),
+    totale: {g26:mv(cdTot26,0), g25:mv(cdTot25,0), f26:mv(cdTot26,1), f25:mv(cdTot25,1), tot26:ytdCD26, tot25:M25.ann.costiDiretti}
+  },
+  margine: {
+    g26:mv(fatTot26,0)-mv(cdTot26,0), g25:mv(fatTot25,0)-mv(cdTot25,0),
+    f26:mv(fatTot26,1)-mv(cdTot26,1), f25:mv(fatTot25,1)-mv(cdTot25,1),
+    tot26:ytdMarg26, tot25:M25.ann.fatturato-M25.ann.costiDiretti,
+    pctG26:+((mv(fatTot26,0)-mv(cdTot26,0))/(mv(fatTot26,0)||1)*100).toFixed(1),
+    pctG25:+((mv(fatTot25,0)-mv(cdTot25,0))/(mv(fatTot25,0)||1)*100).toFixed(1),
+    pctF26:+((mv(fatTot26,1)-mv(cdTot26,1))/(mv(fatTot26,1)||1)*100).toFixed(1),
+    pctF25:+((mv(fatTot25,1)-mv(cdTot25,1))/(mv(fatTot25,1)||1)*100).toFixed(1),
+    pctTot26:ytdMargPct26, pctTot25:ytdMargPct25
+  },
+  costiIndiretti: {
+    locale:    mk(M26.costiIndiretti.locale,    M25.costiIndiretti.locale,    M25.ann.locale),
+    marketing: mk(M26.costiIndiretti.marketing, M25.costiIndiretti.marketing, M25.ann.marketing),
+    afc:       mk(M26.costiIndiretti.afc,       M25.costiIndiretti.afc,       M25.ann.afc),
+    banche:    mk(M26.costiIndiretti.banche,    M25.costiIndiretti.banche,    M25.ann.banche),
+    imposte:   mk(M26.costiIndiretti.imposte,   M25.costiIndiretti.imposte,   0),
+    totale:    {g26:mv(ciTot26,0), g25:mv(ciTot25,0), f26:mv(ciTot26,1), f25:mv(ciTot25,1), tot26:ytdCI26, tot25:M25.ann.costiIndiretti}
   },
   risultato: {
-    totCosti:  {g26:74888,g25:85384,f26:70688,f25:73920,tot26:238035,tot25:1027695},
-    utileAnte: {g26:15399,g25:-2347,f26: 6380,f25: 2680,tot26:-70680,tot25: 74820},
-    imposte:   {g26:-4620,g25:  704,f26:-1914,f25: -804,tot26: 21204,tot25:-22446},
-    utile:     {g26:10780,g25:-1643,f26: 4466,f25: 1876,tot26:-49476,tot25: 52374}
+    totCosti:  {g26:mv(cdTot26,0)+mv(ciTot26,0), g25:mv(cdTot25,0)+mv(ciTot25,0), f26:mv(cdTot26,1)+mv(ciTot26,1), f25:mv(cdTot25,1)+mv(ciTot25,1), tot26:ytdCost26, tot25:M25.ann.fatturato-M25.ann.utile},
+    utileAnte: {g26:mv(fatTot26,0)-mv(cdTot26,0)-mv(ciTot26,0), g25:mv(fatTot25,0)-mv(cdTot25,0)-mv(ciTot25,0), f26:mv(fatTot26,1)-mv(cdTot26,1)-mv(ciTot26,1), f25:mv(fatTot25,1)-mv(cdTot25,1)-mv(ciTot25,1), tot26:ytdFat26-ytdCost26, tot25:M25.ann.utile},
+    imposte:   {g26:mv(M26.imposte,0), g25:mv(M25.imposte,0), f26:mv(M26.imposte,1), f25:mv(M25.imposte,1), tot26:ytdImp26, tot25:s25m(M25.imposte)},
+    utile:     {g26:mv(fatTot26,0)-mv(cdTot26,0)-mv(ciTot26,0)+mv(M26.imposte,0), g25:mv(fatTot25,0)-mv(cdTot25,0)-mv(ciTot25,0)+mv(M25.imposte,0), f26:mv(fatTot26,1)-mv(cdTot26,1)-mv(ciTot26,1)+mv(M26.imposte,1), f25:mv(fatTot25,1)-mv(cdTot25,1)-mv(ciTot25,1)+mv(M25.imposte,1), tot26:ytdUt26, tot25:M25.ann.utile}
   }
 };
 
@@ -1022,19 +1078,18 @@ function animateProgressBars() {
 function makeSparkline(canvasId, data, color) {
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
+  const existing = Chart.getChart(canvas);
+  if (existing) existing.destroy();
   new Chart(canvas, {
     type:'line',
     data:{
-      labels:['Gen','Feb'],
+      labels:ML.slice(0, data.length),
       datasets:[{data,borderColor:color,backgroundColor:color+'22',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:color,borderWidth:2}]
     },
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}},animation:{duration:1000}}
   });
 }
-makeSparkline('spk1',[90288,77068],'#3b82f6');
-makeSparkline('spk2',[44.2,40.6],'#22c55e');
-makeSparkline('spk3',[10780,4466],'#d97706');
-makeSparkline('spk4',[74888,70688],'#6366f1');
+// Sparklines built inside buildMainKpiGrid()
 
 // ═══════════════════ DRILL-DOWN DRAWER ═══════════════════
 const costDrillData = {
@@ -1296,10 +1351,10 @@ Chart.defaults.color       = '#6b7280';
 const chartFatt = new Chart(document.getElementById('chartFatturato'), {
   type:'bar',
   data:{
-    labels:['Gennaio','Febbraio'],
+    labels: ML.slice(0, N26),
     datasets:[
-      {label:'2026',data:[90288,77068],backgroundColor:'#2563eb',borderRadius:7},
-      {label:'2025',data:[83037,76601],backgroundColor:'#93c5fd',borderRadius:7}
+      {label:'2026', data:fatTot26.slice(0,N26).map(v=>v||0), backgroundColor:'#2563eb', borderRadius:7},
+      {label:'2025', data:fatTot25.slice(0,N26).map(v=>v||0), backgroundColor:'#93c5fd', borderRadius:7}
     ]
   },
   options:{
@@ -1308,7 +1363,7 @@ const chartFatt = new Chart(document.getElementById('chartFatturato'), {
       if(!els.length) return;
       const i = els[0].index, ds = els[0].datasetIndex;
       const keys = [['gen2026','gen2025'],['feb2026','feb2025']];
-      openDrawer(keys[i][ds]);
+      if(keys[i]) openDrawer(keys[i][ds]);
     },
     plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': €'+ctx.raw.toLocaleString('it-IT')}}},
     scales:{y:{grid:{color:'#f3f4f6'},ticks:{callback:v=>'€'+(v/1000).toFixed(0)+'k'}}}
@@ -1481,21 +1536,28 @@ function buildTbodyCosti() {
 // ═══════════════════ MARGINI CHARTS ═══════════════════
 new Chart(document.getElementById('chartMargine'),{
   type:'bar',
-  data:{labels:['Gennaio','Febbraio'],datasets:[
-    {label:'Margine 2026',data:[39896,31285],backgroundColor:'#10b981',borderRadius:6},
-    {label:'Margine 2025',data:[25259,27967],backgroundColor:'#6ee7b7',borderRadius:6}
+  data:{labels:ML.slice(0,N26),datasets:[
+    {label:'Margine 2026', data:Array.from({length:N26},(_,i)=>mv(fatTot26,i)-mv(cdTot26,i)), backgroundColor:'#10b981', borderRadius:6},
+    {label:'Margine 2025', data:Array.from({length:N26},(_,i)=>mv(fatTot25,i)-mv(cdTot25,i)), backgroundColor:'#6ee7b7', borderRadius:6}
   ]},
   options:{responsive:true,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:ctx=>' €'+ctx.raw.toLocaleString('it-IT')}}},scales:{y:{ticks:{callback:v=>'€'+(v/1000).toFixed(0)+'k'}}}}
 });
 new Chart(document.getElementById('chartUtile'),{
   type:'bar',
-  data:{labels:['Gennaio','Febbraio'],datasets:[
-    {label:'Utile 2026',data:[10780,4466],backgroundColor:['#16a34a','#16a34a'],borderRadius:6},
-    {label:'Utile 2025',data:[-1643,1876],backgroundColor:['#dc2626','#16a34a'],borderRadius:6}
+  data:{labels:ML.slice(0,N26),datasets:[
+    {label:'Utile 2026', data:Array.from({length:N26},(_,i)=>mv(fatTot26,i)-mv(cdTot26,i)-mv(ciTot26,i)+mv(M26.imposte,i)), backgroundColor:Array.from({length:N26},(_,i)=>(mv(fatTot26,i)-mv(cdTot26,i)-mv(ciTot26,i)+mv(M26.imposte,i))>=0?'#16a34a':'#dc2626'), borderRadius:6},
+    {label:'Utile 2025', data:Array.from({length:N26},(_,i)=>mv(fatTot25,i)-mv(cdTot25,i)-mv(ciTot25,i)+mv(M25.imposte,i)), backgroundColor:Array.from({length:N26},(_,i)=>(mv(fatTot25,i)-mv(cdTot25,i)-mv(ciTot25,i)+mv(M25.imposte,i))>=0?'#6ee7b7':'#fca5a5'), borderRadius:6}
   ]},
   options:{responsive:true,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:ctx=>' €'+ctx.raw.toLocaleString('it-IT')}}},scales:{y:{ticks:{callback:v=>'€'+(v/1000).toFixed(0)+'k'}}}}
 });
-buildWaterfall('chartWaterfallFeb',77068,45783,24905,4466);
+// Waterfall ultimo mese disponibile (tab Margini)
+(function(){
+  const li = N26 - 1;
+  const fat = fatTot26[li]||0, cd=cdTot26[li]||0, ci=ciTot26[li]||0, imp=M26.imposte[li]||0;
+  buildWaterfall('chartWaterfallFeb', fat, cd, ci, fat-cd-ci+imp);
+  const t = document.getElementById('wfLastMonthTitle');
+  if(t) t.textContent = 'Da Fatturato a Utile — '+ML[li]+' 2026';
+})();
 
 // ═══════════════════ VARIANCE ═══════════════════
 function buildVariance() {
@@ -1525,112 +1587,159 @@ function buildVariance() {
   render(neg,'variance-neg',false);
 }
 
-// ═══════════════════ CE COMPLETO ═══════════════════
+// ═══════════════════ CE COMPLETO — con selettore mese ═══════════════════
+let currentCEMonth = N26 - 1; // default = ultimo mese disponibile
+
+function buildCEMonthSelector() {
+  const wrap = document.getElementById('ceMonthToggle');
+  if (!wrap) return;
+  wrap.innerHTML = ML.slice(0, N26).map((m, i) =>
+    `<button class="month-btn${i===currentCEMonth?' active':''}" onclick="setCEMonth(${i},this)">${m}</button>`
+  ).join('') + `<button class="month-btn${currentCEMonth===-1?' active':''}" onclick="setCEMonth(-1,this)" style="background:var(--coltot-bg);border-color:var(--coltot-txt);color:var(--coltot-txt)">YTD</button>`;
+}
+
+function setCEMonth(i, btn) {
+  currentCEMonth = i;
+  document.querySelectorAll('#ceMonthToggle .month-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  buildCECompleto();
+  injectNoteBtns();
+}
+
 function buildCECompleto() {
-  const tbody=document.getElementById('tbody-ce');
-  const FG26=D.fatturato.totale.g26,FG25=D.fatturato.totale.g25,FF26=D.fatturato.totale.f26,FF25=D.fatturato.totale.f25;
+  const m   = currentCEMonth; // -1 = mostra solo YTD
+  const showMonth = m >= 0;
+  const FM26 = showMonth ? (fatTot26[m]||1) : ytdFat26||1;
+  const FM25 = showMonth ? (fatTot25[m]||1) : ytdFat25||1;
+  const mLabel = showMonth ? ML[m] : 'YTD';
+  const COLS = showMonth ? 13 : 7; // colspan per section/separator
 
-  // tooltip keys: voce_dg / voce_df
-  const row=(label,g26,g25,f26,f25,t26,t25,clsE='',isCost=false,ttKeyG='',ttKeyF='')=>{
-    const dg=g26-g25, df=f26-f25, s=isCost?-1:1;
-    const hg=ttKeyG?`onmouseenter="showCETooltip(event,'${ttKeyG}')" onmousemove="moveCETooltip(event)" onmouseleave="hideCETooltip()"`:''
-    const hf=ttKeyF?`onmouseenter="showCETooltip(event,'${ttKeyF}')" onmousemove="moveCETooltip(event)" onmouseleave="hideCETooltip()"`:''
-    // heatmap class: solo per righe costo, intensità basata su % fatturato
-    const hm=(v,f)=>{if(!isCost||!f)return '';const p=v/f*100;return p<3?'':p<12?' hm-1':p<22?' hm-2':p<32?' hm-3':' hm-4';};
-    return `<tr class="${clsE}"><td>${label}</td>
-      <td class="td-26 border-l-26${hm(g26,FG26)}">${fmt(g26)}</td><td class="td-26 pct">${fmtP(g26,FG26)}</td>
-      <td class="td-25 border-l-25${hm(g25,FG25)}">${fmt(g25)}</td><td class="td-25 pct">${fmtP(g25,FG25)}</td>
-      <td class="td-d border-l-d ${clsCl(dg*s)}" style="cursor:${ttKeyG?'help':'default'}" ${hg}>${fmtN(dg)}</td>
-      <td class="td-d ${clsCl(dg*s)}">${sgn(dg)}${dp(g26,g25)}%</td>
-      <td class="td-26 border-l-26${hm(f26,FF26)}">${fmt(f26)}</td><td class="td-26 pct">${fmtP(f26,FF26)}</td>
-      <td class="td-25 border-l-25${hm(f25,FF25)}">${fmt(f25)}</td><td class="td-25 pct">${fmtP(f25,FF25)}</td>
-      <td class="td-d border-l-d ${clsCl(df*s)}" style="cursor:${ttKeyF?'help':'default'}" ${hf}>${fmtN(df)}</td>
-      <td class="td-d ${clsCl(df*s)}">${sgn(df)}${dp(f26,f25)}%</td>
-      <td class="td-tot border-l-tot">${fmt(t26)}</td><td class="td-tot">${fmt(t25)}</td></tr>`;
+  // Build header dinamico
+  const thead = document.getElementById('thead-ce');
+  if (thead) thead.innerHTML = showMonth ? `
+    <tr>
+      <th rowspan="2" style="vertical-align:middle;min-width:180px">Voce</th>
+      <th colspan="2" class="th-grp-26 border-l-26">${mLabel.toUpperCase()} 2026</th>
+      <th colspan="2" class="th-grp-25 border-l-25">${mLabel.toUpperCase()} 2025</th>
+      <th colspan="2" class="th-grp-d border-l-d">Δ ${mLabel}</th>
+      <th colspan="2" class="th-grp-26 border-l-26">YTD 2026</th>
+      <th colspan="2" class="th-grp-25 border-l-25">YTD 2025</th>
+      <th colspan="2" class="th-grp-d border-l-d">Δ YTD</th>
+    </tr>
+    <tr>
+      <th class="th-26 border-l-26">Valore</th><th class="th-26">%</th>
+      <th class="th-25 border-l-25">Valore</th><th class="th-25">%</th>
+      <th class="th-d border-l-d">Δ €</th><th class="th-d">Δ %</th>
+      <th class="th-26 border-l-26">Valore</th><th class="th-26">%</th>
+      <th class="th-25 border-l-25">Valore</th><th class="th-25">%</th>
+      <th class="th-d border-l-d">Δ €</th><th class="th-d">Δ %</th>
+    </tr>` : `
+    <tr>
+      <th rowspan="2" style="vertical-align:middle;min-width:180px">Voce</th>
+      <th colspan="2" class="th-grp-26 border-l-26">YTD 2026 (${ML.slice(0,N26).join('–')})</th>
+      <th colspan="2" class="th-grp-25 border-l-25">YTD 2025</th>
+      <th colspan="2" class="th-grp-d border-l-d">Δ YTD</th>
+    </tr>
+    <tr>
+      <th class="th-26 border-l-26">Valore</th><th class="th-26">%</th>
+      <th class="th-25 border-l-25">Valore</th><th class="th-25">%</th>
+      <th class="th-d border-l-d">Δ €</th><th class="th-d">Δ %</th>
+    </tr>`;
+
+  buildCEMonthSelector();
+
+  const tbody = document.getElementById('tbody-ce');
+
+  const hm = (v, f, isCost) => {
+    if (!isCost || !f) return '';
+    const p = v/f*100;
+    return p<3?'':p<12?' hm-1':p<22?' hm-2':p<32?' hm-3':' hm-4';
   };
-  const sec=l=>`<tr class="row-section"><td colspan="15">${l}</td></tr>`;
-  const sep=()=>`<tr class="row-separator"><td colspan="15"></td></tr>`;
 
-  let html='';
-  html+=sec('📊 RICAVI');
-  html+=row('Pizzeria',D.fatturato.pizzeria.g26,D.fatturato.pizzeria.g25,D.fatturato.pizzeria.f26,D.fatturato.pizzeria.f25,D.fatturato.pizzeria.tot26,D.fatturato.pizzeria.tot25,'','','Pizzeria_dg','Pizzeria_df');
-  html+=row('Bar',D.fatturato.bar.g26,D.fatturato.bar.g25,D.fatturato.bar.f26,D.fatturato.bar.f25,D.fatturato.bar.tot26,D.fatturato.bar.tot25,'','','Bar_dg','Bar_df');
-  html+=row('Cucina',D.fatturato.cucina.g26,D.fatturato.cucina.g25,D.fatturato.cucina.f26,D.fatturato.cucina.f25,D.fatturato.cucina.tot26,D.fatturato.cucina.tot25,'','','Cucina_dg','Cucina_df');
-  html+=row('Coperto e Servizio',D.fatturato.coperto.g26,D.fatturato.coperto.g25,D.fatturato.coperto.f26,D.fatturato.coperto.f25,D.fatturato.coperto.tot26,D.fatturato.coperto.tot25);
-  html+=row('Altro Operativo',D.fatturato.altro.g26,D.fatturato.altro.g25,D.fatturato.altro.f26,D.fatturato.altro.f25,D.fatturato.altro.tot26,D.fatturato.altro.tot25);
-  html+=row('FATTURATO TOTALE',D.fatturato.totale.g26,D.fatturato.totale.g25,D.fatturato.totale.f26,D.fatturato.totale.f25,D.fatturato.totale.tot26,D.fatturato.totale.tot25,'row-total');
-  html+=sep();
+  const row = (label, arr26, arr25, clsE='', isCost=false, ttKey='') => {
+    const v26 = showMonth ? (arr26[m]||0) : s26(arr26);
+    const v25 = showMonth ? (arr25[m]||0) : s25m(arr25);
+    const y26 = s26(arr26), y25 = s25m(arr25);
+    const dv = v26-v25, dy = y26-y25;
+    const s  = isCost ? -1 : 1;
+    const hh = ttKey ? `onmouseenter="showCETooltip(event,'${ttKey}')" onmousemove="moveCETooltip(event)" onmouseleave="hideCETooltip()"` : '';
+    const monthCols = showMonth ? `
+      <td class="td-26 border-l-26${hm(v26,FM26,isCost)}">${fmt(v26)}</td><td class="td-26 pct">${fmtP(v26,FM26)}</td>
+      <td class="td-25 border-l-25${hm(v25,FM25,isCost)}">${fmt(v25)}</td><td class="td-25 pct">${fmtP(v25,FM25)}</td>
+      <td class="td-d border-l-d ${clsCl(dv*s)}" style="cursor:${ttKey?'help':'default'}" ${hh}>${fmtN(dv)}</td><td class="td-d ${clsCl(dv*s)}">${sgn(dv)}${dp(v26,v25)}%</td>` : '';
+    return `<tr class="${clsE}"><td>${label}</td>${monthCols}
+      <td class="td-26 border-l-26${hm(y26,ytdFat26,isCost)}">${fmt(y26)}</td><td class="td-26 pct">${fmtP(y26,ytdFat26)}</td>
+      <td class="td-25 border-l-25">${fmt(y25)}</td><td class="td-25 pct">${fmtP(y25,ytdFat25)}</td>
+      <td class="td-d border-l-d ${clsCl(dy*s)}">${fmtN(dy)}</td><td class="td-d ${clsCl(dy*s)}">${sgn(dy)}${dp(y26,y25)}%</td></tr>`;
+  };
 
-  html+=sec('📉 COSTI DIRETTI');
-  html+=row('Area Food',D.costiDiretti.food.g26,D.costiDiretti.food.g25,D.costiDiretti.food.f26,D.costiDiretti.food.f25,D.costiDiretti.food.tot26,D.costiDiretti.food.tot25,'',true,'Food_dg','Food_df');
-  html+=row('Area Bar',D.costiDiretti.bar.g26,D.costiDiretti.bar.g25,D.costiDiretti.bar.f26,D.costiDiretti.bar.f25,D.costiDiretti.bar.tot26,D.costiDiretti.bar.tot25,'',true);
-  html+=row('Sala',D.costiDiretti.sala.g26,D.costiDiretti.sala.g25,D.costiDiretti.sala.f26,D.costiDiretti.sala.f25,D.costiDiretti.sala.tot26,D.costiDiretti.sala.tot25,'',true,'Sala_dg','Sala_df');
-  html+=row('TOT. COSTI DIRETTI',D.costiDiretti.totale.g26,D.costiDiretti.totale.g25,D.costiDiretti.totale.f26,D.costiDiretti.totale.f25,D.costiDiretti.totale.tot26,D.costiDiretti.totale.tot25,'row-total',true);
-  html+=sep();
+  const sec = l => `<tr class="row-section"><td colspan="${COLS}">${l}</td></tr>`;
+  const sep = () => `<tr class="row-separator"><td colspan="${COLS}"></td></tr>`;
 
-  const mg26=D.margine.g26,mg25=D.margine.g25,mf26=D.margine.f26,mf25=D.margine.f25;
-  const dmg=mg26-mg25, dmf=mf26-mf25;
-  html+=`<tr class="row-total" style="background:var(--green-light)!important">
-    <td>MARGINE DI CONTRIBUZIONE</td>
-    <td class="td-26 border-l-26 pos">${fmt(mg26)} <span class="pct">(${D.margine.pctG26}%)</span></td><td class="td-26 pct">${D.margine.pctG26}%</td>
-    <td class="td-25 border-l-25">${fmt(mg25)} <span class="pct">(${D.margine.pctG25}%)</span></td><td class="td-25 pct">${D.margine.pctG25}%</td>
-    <td class="td-d border-l-d pos" style="cursor:help" onmouseenter="showCETooltip(event,'Margine_dg')" onmousemove="moveCETooltip(event)" onmouseleave="hideCETooltip()">${fmtN(dmg)}</td><td class="td-d pos">+${dp(mg26,mg25)}%</td>
-    <td class="td-26 border-l-26 pos">${fmt(mf26)} <span class="pct">(${D.margine.pctF26}%)</span></td><td class="td-26 pct">${D.margine.pctF26}%</td>
-    <td class="td-25 border-l-25">${fmt(mf25)} <span class="pct">(${D.margine.pctF25}%)</span></td><td class="td-25 pct">${D.margine.pctF25}%</td>
-    <td class="td-d border-l-d pos">${fmtN(dmf)}</td><td class="td-d pos">+${dp(mf26,mf25)}%</td>
-    <td class="td-tot border-l-tot pos">${fmt(D.margine.tot26)} <span class="pct">(${D.margine.pctTot26}%)</span></td>
-    <td class="td-tot">${fmt(D.margine.tot25)} <span class="pct">(${D.margine.pctTot25}%)</span></td>
-  </tr>`;
-  html+=sep();
+  let html = '';
+  html += sec('📊 RICAVI');
+  html += row('Pizzeria',      M26.ricavi.pizzeria, M25.ricavi.pizzeria, '', false, 'Pizzeria_dg');
+  html += row('Bar',           M26.ricavi.bar,      M25.ricavi.bar,      '', false, 'Bar_dg');
+  html += row('Cucina',        M26.ricavi.cucina,   M25.ricavi.cucina,   '', false, 'Cucina_dg');
+  html += row('Coperto e Servizio', M26.ricavi.coperto, M25.ricavi.coperto);
+  html += row('Altro Operativo',    M26.ricavi.altro,   M25.ricavi.altro);
+  html += row('FATTURATO TOTALE', fatTot26, fatTot25, 'row-total');
+  html += sep();
 
-  html+=sec('🏢 COSTI INDIRETTI');
-  html+=row('Locale Generico',D.costiIndiretti.locale.g26,D.costiIndiretti.locale.g25,D.costiIndiretti.locale.f26,D.costiIndiretti.locale.f25,D.costiIndiretti.locale.tot26,D.costiIndiretti.locale.tot25,'',true,'Locale_dg','');
-  html+=row('Marketing e Comunicazione',D.costiIndiretti.marketing.g26,D.costiIndiretti.marketing.g25,D.costiIndiretti.marketing.f26,D.costiIndiretti.marketing.f25,D.costiIndiretti.marketing.tot26,D.costiIndiretti.marketing.tot25,'',true,'','Marketing_df');
-  html+=row('AFC',D.costiIndiretti.afc.g26,D.costiIndiretti.afc.g25,D.costiIndiretti.afc.f26,D.costiIndiretti.afc.f25,D.costiIndiretti.afc.tot26,D.costiIndiretti.afc.tot25,'',true,'AFC_dg','');
-  html+=row('Banche e Intermediari',D.costiIndiretti.banche.g26,D.costiIndiretti.banche.g25,D.costiIndiretti.banche.f26,D.costiIndiretti.banche.f25,D.costiIndiretti.banche.tot26,D.costiIndiretti.banche.tot25,'',true);
-  html+=row('Imposte e Tasse',D.costiIndiretti.imposte.g26,D.costiIndiretti.imposte.g25,D.costiIndiretti.imposte.f26,D.costiIndiretti.imposte.f25,D.costiIndiretti.imposte.tot26,D.costiIndiretti.imposte.tot25,'',true);
-  html+=row('TOT. COSTI INDIRETTI',D.costiIndiretti.totale.g26,D.costiIndiretti.totale.g25,D.costiIndiretti.totale.f26,D.costiIndiretti.totale.f25,D.costiIndiretti.totale.tot26,D.costiIndiretti.totale.tot25,'row-total',true);
-  html+=sep();
+  html += sec('📉 COSTI DIRETTI');
+  html += row('Area Food', M26.costiDiretti.food, M25.costiDiretti.food, '', true, 'Food_dg');
+  html += row('Area Bar',  M26.costiDiretti.bar,  M25.costiDiretti.bar,  '', true);
+  html += row('Sala',      M26.costiDiretti.sala, M25.costiDiretti.sala, '', true, 'Sala_dg');
+  html += row('TOT. COSTI DIRETTI', cdTot26, cdTot25, 'row-total', true);
+  html += sep();
 
-  html+=sec('💼 RISULTATO FINALE');
-  html+=row('Totale Costi',D.risultato.totCosti.g26,D.risultato.totCosti.g25,D.risultato.totCosti.f26,D.risultato.totCosti.f25,D.risultato.totCosti.tot26,D.risultato.totCosti.tot25,'',true);
+  // Margine
+  const margArr26 = Array.from({length:12},(_,i)=>(fatTot26[i]!==null&&cdTot26[i]!==null)?fatTot26[i]-cdTot26[i]:null);
+  const margArr25 = Array.from({length:12},(_,i)=>(fatTot25[i]!==null&&cdTot25[i]!==null)?fatTot25[i]-cdTot25[i]:null);
+  const mv26 = showMonth?(margArr26[m]||0):ytdMarg26, mv25=showMonth?(margArr25[m]||0):ytdMarg25;
+  const mp26 = +(mv26/(showMonth?FM26:ytdFat26||1)*100).toFixed(1);
+  const mp25 = +(mv25/(showMonth?FM25:ytdFat25||1)*100).toFixed(1);
+  const dm = mv26-mv25;
+  const monthMargCols = showMonth ? `
+    <td class="td-26 border-l-26 pos">${fmt(mv26)} <span class="pct">(${mp26}%)</span></td><td class="td-26 pct">${mp26}%</td>
+    <td class="td-25 border-l-25">${fmt(mv25)} <span class="pct">(${mp25}%)</span></td><td class="td-25 pct">${mp25}%</td>
+    <td class="td-d border-l-d pos" style="cursor:help" onmouseenter="showCETooltip(event,'Margine_dg')" onmousemove="moveCETooltip(event)" onmouseleave="hideCETooltip()">${fmtN(dm)}</td><td class="td-d pos">${sgn(dm)}${dp(mv26,mv25)}%</td>` : '';
+  html += `<tr class="row-total" style="background:var(--green-light)!important"><td>MARGINE DI CONTRIBUZIONE</td>${monthMargCols}
+    <td class="td-26 border-l-26 pos">${fmt(ytdMarg26)} <span class="pct">(${ytdMargPct26}%)</span></td><td class="td-26 pct">${ytdMargPct26}%</td>
+    <td class="td-25 border-l-25">${fmt(ytdMarg25)} <span class="pct">(${ytdMargPct25}%)</span></td><td class="td-25 pct">${ytdMargPct25}%</td>
+    <td class="td-d border-l-d pos">${fmtN(ytdMarg26-ytdMarg25)}</td><td class="td-d pos">${sgn(ytdMarg26-ytdMarg25)}${dp(ytdMarg26,ytdMarg25)}%</td></tr>`;
+  html += sep();
 
-  const ua=D.risultato.utileAnte, dua_g=ua.g26-ua.g25, dua_f=ua.f26-ua.f25;
-  html+=`<tr class="row-total"><td>Utile ante imposte</td>
-    <td class="td-26 border-l-26 ${clsCl(ua.g26)}">${fmt(ua.g26)}</td><td class="td-26 pct">${fmtP(ua.g26,FG26)}</td>
-    <td class="td-25 border-l-25 ${clsCl(ua.g25)}">${fmt(ua.g25)}</td><td class="td-25 pct">—</td>
-    <td class="td-d border-l-d ${clsCl(dua_g)}">${fmtN(dua_g)}</td><td class="td-d ${clsCl(dua_g)}">${sgn(dua_g)}${dp(ua.g26,ua.g25)}%</td>
-    <td class="td-26 border-l-26 ${clsCl(ua.f26)}">${fmt(ua.f26)}</td><td class="td-26 pct">${fmtP(ua.f26,FF26)}</td>
-    <td class="td-25 border-l-25 ${clsCl(ua.f25)}">${fmt(ua.f25)}</td><td class="td-25 pct">${fmtP(ua.f25,FF25)}</td>
-    <td class="td-d border-l-d ${clsCl(dua_f)}">${fmtN(dua_f)}</td><td class="td-d ${clsCl(dua_f)}">${sgn(dua_f)}${dp(ua.f26,ua.f25)}%</td>
-    <td class="td-tot border-l-tot ${clsCl(ua.tot26)}">${fmt(ua.tot26)}</td><td class="td-tot ${clsCl(ua.tot25)}">${fmt(ua.tot25)}</td>
-  </tr>`;
+  html += sec('🏢 COSTI INDIRETTI');
+  html += row('Locale Generico',         M26.costiIndiretti.locale,    M25.costiIndiretti.locale,    '', true, 'Locale_dg');
+  html += row('Marketing e Comunicazione',M26.costiIndiretti.marketing, M25.costiIndiretti.marketing, '', true);
+  html += row('AFC',                     M26.costiIndiretti.afc,       M25.costiIndiretti.afc,       '', true, 'AFC_dg');
+  html += row('Banche e Intermediari',   M26.costiIndiretti.banche,    M25.costiIndiretti.banche,    '', true);
+  html += row('Imposte e Tasse',         M26.costiIndiretti.imposte,   M25.costiIndiretti.imposte,   '', true);
+  html += row('TOT. COSTI INDIRETTI',    ciTot26, ciTot25, 'row-total', true);
+  html += sep();
 
-  const imp=D.risultato.imposte;
-  html+=`<tr><td>Imposte su utile</td>
-    <td class="td-26 border-l-26">${fmt(imp.g26)}</td><td class="td-26 pct">${fmtP(Math.abs(imp.g26),FG26)}</td>
-    <td class="td-25 border-l-25">${fmt(imp.g25)}</td><td class="td-25 pct">—</td>
-    <td class="td-d border-l-d">${fmtN(imp.g26-imp.g25)}</td><td class="td-d">—</td>
-    <td class="td-26 border-l-26">${fmt(imp.f26)}</td><td class="td-26 pct">${fmtP(Math.abs(imp.f26),FF26)}</td>
-    <td class="td-25 border-l-25">${fmt(imp.f25)}</td><td class="td-25 pct">—</td>
-    <td class="td-d border-l-d">${fmtN(imp.f26-imp.f25)}</td><td class="td-d">—</td>
-    <td class="td-tot border-l-tot">${fmt(imp.tot26)}</td><td class="td-tot">${fmt(imp.tot25)}</td>
-  </tr>`;
+  html += sec('💼 RISULTATO FINALE');
+  const costArr26 = Array.from({length:12},(_,i)=>(cdTot26[i]!==null&&ciTot26[i]!==null)?cdTot26[i]+ciTot26[i]:null);
+  const costArr25 = Array.from({length:12},(_,i)=>(cdTot25[i]!==null&&ciTot25[i]!==null)?cdTot25[i]+ciTot25[i]:null);
+  html += row('Totale Costi', costArr26, costArr25, '', true);
+  html += row('Imposte su utile', M26.imposte, M25.imposte, '');
 
-  const ut=D.risultato.utile, dut_g=ut.g26-ut.g25, dut_f=ut.f26-ut.f25;
-  html+=`<tr class="row-result"><td>🏆 UTILE D'ESERCIZIO</td>
-    <td class="border-l-26 ${clsCl(ut.g26)}">${fmt(ut.g26)}</td><td class="pct">${fmtP(ut.g26,FG26)}</td>
-    <td class="border-l-25 ${clsCl(ut.g25)}">${fmt(ut.g25)}</td><td class="pct">—</td>
-    <td class="border-l-d ${clsCl(dut_g)}" style="cursor:help" onmouseenter="showCETooltip(event,'Utile_dg')" onmousemove="moveCETooltip(event)" onmouseleave="hideCETooltip()">${fmtN(dut_g)}</td>
-    <td class="${clsCl(dut_g)}">${sgn(dut_g)}${dp(ut.g26,ut.g25)}%</td>
-    <td class="border-l-26 ${clsCl(ut.f26)}">${fmt(ut.f26)}</td><td class="pct">${fmtP(ut.f26,FF26)}</td>
-    <td class="border-l-25 ${clsCl(ut.f25)}">${fmt(ut.f25)}</td><td class="pct">${fmtP(ut.f25,FF25)}</td>
-    <td class="border-l-d ${clsCl(dut_f)}" style="cursor:help" onmouseenter="showCETooltip(event,'Utile_df')" onmousemove="moveCETooltip(event)" onmouseleave="hideCETooltip()">${fmtN(dut_f)}</td>
-    <td class="${clsCl(dut_f)}">${sgn(dut_f)}${dp(ut.f26,ut.f25)}%</td>
-    <td class="border-l-tot ${clsCl(ut.tot26)}">${fmt(ut.tot26)}</td><td class="${clsCl(ut.tot25)}">${fmt(ut.tot25)}</td>
-  </tr>`;
+  // Utile finale
+  const utArr26 = Array.from({length:12},(_,i)=>fatTot26[i]!==null?(fatTot26[i]-(cdTot26[i]||0)-(ciTot26[i]||0)+(M26.imposte[i]||0)):null);
+  const utArr25 = Array.from({length:12},(_,i)=>fatTot25[i]!==null?(fatTot25[i]-(cdTot25[i]||0)-(ciTot25[i]||0)+(M25.imposte[i]||0)):null);
+  const uv26 = showMonth?(utArr26[m]||0):ytdUt26, uv25=showMonth?(utArr25[m]||0):M25.ann.utile;
+  const du = uv26-uv25;
+  const monthUtCols = showMonth ? `
+    <td class="border-l-26 ${clsCl(uv26)}">${fmt(uv26)}</td><td class="pct">${fmtP(uv26,FM26)}</td>
+    <td class="border-l-25 ${clsCl(uv25)}">${fmt(uv25)}</td><td class="pct">—</td>
+    <td class="border-l-d ${clsCl(du)}" style="cursor:help" onmouseenter="showCETooltip(event,'Utile_dg')" onmousemove="moveCETooltip(event)" onmouseleave="hideCETooltip()">${fmtN(du)}</td><td class="${clsCl(du)}">${sgn(du)}${dp(uv26,uv25)}%</td>` : '';
+  html += `<tr class="row-result"><td>🏆 UTILE D'ESERCIZIO</td>${monthUtCols}
+    <td class="border-l-26 ${clsCl(ytdUt26)}">${fmt(ytdUt26)}</td><td class="pct">${fmtP(ytdUt26,ytdFat26)}</td>
+    <td class="border-l-25 ${clsCl(ytdUt25)}">${fmt(ytdUt25)}</td><td class="pct">—</td>
+    <td class="border-l-d ${clsCl(ytdUt26-ytdUt25)}">${fmtN(ytdUt26-ytdUt25)}</td><td class="${clsCl(ytdUt26-ytdUt25)}">${sgn(ytdUt26-ytdUt25)}${dp(ytdUt26,ytdUt25)}%</td></tr>`;
 
-  tbody.innerHTML=html;
+  tbody.innerHTML = html;
 }
 
 // ═══════════════════ EXECUTIVE CHARTS ═══════════════════
@@ -1733,14 +1842,16 @@ function printDashboard() {
 
 // ═══════════════════ WATERFALL TOGGLE ═══════════════════
 let wfChart = null;
-function buildWaterfallToggle(month) {
-  const data = month === 'gen'
-    ? { fat:90288, cd:50392, ci:24496, ut:10780 }
-    : { fat:77068, cd:45783, ci:24905, ut:4466 };
+function buildWaterfallToggle(monthIdx) {
+  const fat = fatTot26[monthIdx] || 0;
+  const cd  = cdTot26[monthIdx]  || 0;
+  const ci  = ciTot26[monthIdx]  || 0;
+  const imp = M26.imposte[monthIdx] || 0;
+  const ut  = fat - cd - ci + imp;
   const labels = ['Fatturato','− C.Diretti','Margine','− C.Indiretti','Utile'];
-  const bases  = [0, data.fat-data.cd, data.fat-data.cd, data.fat-data.cd-data.ci, 0];
-  const vals   = [data.fat, data.cd, data.fat-data.cd, data.ci, data.ut];
-  const cols   = ['#3b82f6','#ef4444','#10b981','#ef4444', data.ut>=0?'#22c55e':'#dc2626'];
+  const bases  = [0, fat-cd, fat-cd, fat-cd-ci, 0];
+  const vals   = [fat, cd, fat-cd, ci, ut];
+  const cols   = ['#3b82f6','#ef4444','#10b981','#ef4444', ut>=0?'#22c55e':'#dc2626'];
   const existingWf = Chart.getChart('chartWaterfall');
   if (existingWf) existingWf.destroy();
   if (wfChart) wfChart.destroy();
@@ -1760,19 +1871,28 @@ function buildWaterfallToggle(month) {
     }
   });
 }
-function switchWaterfall(month, btn) {
+function switchWaterfall(monthIdx, btn) {
   document.querySelectorAll('.wf-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  buildWaterfallToggle(month);
+  if (btn) btn.classList.add('active');
+  buildWaterfallToggle(monthIdx);
+}
+function buildWaterfallBtns() {
+  const wrap = document.getElementById('wfToggle');
+  if (!wrap) return;
+  wrap.innerHTML = ML.slice(0, N26).map((l, i) =>
+    `<button class="wf-btn${i===0?' active':''}" onclick="switchWaterfall(${i},this)">${l}</button>`
+  ).join('');
+  buildWaterfallToggle(0);
 }
 
 // ═══════════════════ TIMELINE 12 MESI ═══════════════════
 function buildTimeline() {
-  const mesi = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
-  // Distribuzione mensile 2025 stimata (totale 1.102.515)
-  // Dati reali Gen/Feb + stima stagionale per gli altri
-  const fatt2025 = [83037,76601,78000,82000,95000,110000,125000,118000,105000,92000,80000,78000];
-  const fatt2026 = [90288,77068,null,null,null,null,null,null,null,null,null,null];
+  const mesi = ML;
+  // 2025: dati reali dove disponibili, stima stagionale per il resto
+  const fatt2025Base = [83037,76601,78000,82000,95000,110000,125000,118000,105000,92000,80000,78000];
+  const fatt2025 = fatt2025Base.map((v,i) => fatTot25[i] !== null ? fatTot25[i] : v);
+  // 2026: dati reali + null per i mesi futuri
+  const fatt2026 = Array.from({length:12}, (_,i) => i < N26 ? (fatTot26[i]||0) : null);
   const media2025 = Math.round(fatt2025.reduce((a,b)=>a+b,0)/12);
 
   new Chart(document.getElementById('chartTimeline'), {
@@ -1820,17 +1940,17 @@ function buildTimeline() {
 
 // ═══════════════════ PROIEZIONE ANNUO 2026 — DINAMICA ═══════════════════
 function buildProiezione() {
-  const ytdFat  = 90288+77068;
-  const ytdMarg = 39896+31285;
-  const ytdUt   = 10780+4466;
-  const ytdCost = 74888+70688;
-  const avgFat  = ytdFat/2;
-  const avgMarg = ytdMarg/2;
-  const avgUt   = ytdUt/2;
-  const avgCost = ytdCost/2;
-  const ref2025Fat = 1102515;
-  const ref2025Ut  = 52374;
-  const mesi = 10; // mesi rimanenti Mar–Dic
+  const ytdFat  = ytdFat26;
+  const ytdMarg = ytdMarg26;
+  const ytdUt   = ytdUt26;
+  const ytdCost = ytdCost26;
+  const avgFat  = ytdFat / N26;
+  const avgMarg = ytdMarg / N26;
+  const avgUt   = ytdUt / N26;
+  const avgCost = ytdCost / N26;
+  const ref2025Fat = M25.ann.fatturato;
+  const ref2025Ut  = M25.ann.utile;
+  const mesi = 12 - N26; // mesi rimanenti
 
   document.getElementById('proiezioneBox').innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px">
@@ -1978,7 +2098,150 @@ document.addEventListener('fullscreenchange', ()=>{
   document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕' : '⛶';
 });
 
+// ═══════════════════ DYNAMIC UI — aggiornato ogni mese ═══════════════════
+function buildMainKpiGrid() {
+  const grid = document.getElementById('mainKpiGrid');
+  if (!grid) return;
+  const ytdCD25m   = s25m(cdTot25);
+  const ytdCI25m   = s25m(ciTot25);
+  const ytdCost25m = ytdCD25m + ytdCI25m;
+  const deltaFat   = ytdFat26 - ytdFat25;
+  const deltaCost  = ytdCost26 - ytdCost25m;
+  const margPct25  = +(ytdMarg25/(ytdFat25||1)*100).toFixed(1);
+  const deltaMargPp= +(ytdMargPct26 - margPct25).toFixed(1);
+  const ytdUt25m   = ytdFat25 - ytdCost25m + s25m(M25.imposte);
+  const deltaUt    = ytdUt26 - ytdUt25m;
+  const mesiLabel  = N26===1 ? ML[0] : ML.slice(0,N26).join('+');
+
+  grid.innerHTML = `
+    <div class="kpi-card blue anim-card">
+      <div class="kpi-label">Fatturato ${mesiLabel} 2026</div>
+      <div class="kpi-value" data-count="${ytdFat26}" data-prefix="€">${fmt(ytdFat26)}</div>
+      <div class="kpi-sub"><span class="badge ${deltaFat>=0?'pos':'neg'}">${fmtN(deltaFat)} vs 2025</span></div>
+      <div class="kpi-sparkline"><canvas id="spk1"></canvas></div>
+    </div>
+    <div class="kpi-card green anim-card">
+      <div class="kpi-label">Margine di Contribuzione</div>
+      <div class="kpi-value" style="color:var(--green)" data-count="${ytdMargPct26}" data-suffix="%">${ytdMargPct26.toFixed(1).replace('.',',')}%</div>
+      <div class="kpi-sub"><span class="badge ${deltaMargPp>=0?'pos':'neg'}">${deltaMargPp>=0?'+':''}${deltaMargPp.toFixed(1).replace('.',',')} pp vs 2025</span> (era ${margPct25.toFixed(1).replace('.',',')}%)</div>
+      <div class="kpi-sparkline"><canvas id="spk2"></canvas></div>
+    </div>
+    <div class="kpi-card amber anim-card">
+      <div class="kpi-label">Utile d'Esercizio ${mesiLabel}</div>
+      <div class="kpi-value" data-count="${ytdUt26}" data-prefix="€">${fmt(ytdUt26)}</div>
+      <div class="kpi-sub"><span class="badge ${deltaUt>=0?'pos':'neg'}">${fmtN(deltaUt)}</span> (era ${fmt(ytdUt25m)})</div>
+      <div class="kpi-sparkline"><canvas id="spk3"></canvas></div>
+    </div>
+    <div class="kpi-card navy anim-card">
+      <div class="kpi-label">Costi Totali ${mesiLabel}</div>
+      <div class="kpi-value" data-count="${ytdCost26}" data-prefix="€">${fmt(ytdCost26)}</div>
+      <div class="kpi-sub"><span class="badge ${deltaCost<=0?'pos':'neg'}">${fmtN(deltaCost)} vs 2025</span></div>
+      <div class="kpi-sparkline"><canvas id="spk4"></canvas></div>
+    </div>`;
+
+  makeSparkline('spk1', fatTot26.slice(0,N26).map(v=>v||0), '#3b82f6');
+  makeSparkline('spk2', Array.from({length:N26},(_,i)=>+((mv(fatTot26,i)-mv(cdTot26,i))/(mv(fatTot26,i)||1)*100).toFixed(1)), '#22c55e');
+  makeSparkline('spk3', Array.from({length:N26},(_,i)=>mv(fatTot26,i)-mv(cdTot26,i)-mv(ciTot26,i)+mv(M26.imposte,i)), '#d97706');
+  makeSparkline('spk4', Array.from({length:N26},(_,i)=>mv(cdTot26,i)+mv(ciTot26,i)), '#6366f1');
+}
+
+function buildProgressSection() {
+  const grid = document.getElementById('progressGrid');
+  if (!grid) return;
+  const pFat  = +(ytdFat26/M25.ann.fatturato*100).toFixed(1);
+  const ann25Marg = M25.ann.fatturato - M25.ann.costiDiretti;
+  const pMarg = +(ytdMarg26/(ann25Marg||1)*100).toFixed(1);
+  const pUt   = +(ytdUt26/(M25.ann.utile||1)*100).toFixed(1);
+
+  grid.innerHTML = `
+    <div class="progress-card anim-card">
+      <div class="progress-header">
+        <span class="progress-title">Fatturato YTD vs Anno 2025</span>
+        <span class="progress-vals"><strong>${fmt(ytdFat26)}</strong> / €${M25.ann.fatturato.toLocaleString('it-IT')}</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill blue" data-pct="${pFat}"></div></div>
+      <div class="progress-legend"><span>0</span><span>${pFat.toFixed(1).replace('.',',')}% dell'anno</span><span>€${M25.ann.fatturato.toLocaleString('it-IT')}</span></div>
+    </div>
+    <div class="progress-card anim-card">
+      <div class="progress-header">
+        <span class="progress-title">Margine Contrib. YTD vs 2025</span>
+        <span class="progress-vals"><strong>${fmt(ytdMarg26)}</strong> / €${ann25Marg.toLocaleString('it-IT')}</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill green" data-pct="${pMarg}"></div></div>
+      <div class="progress-legend"><span>0</span><span>${pMarg.toFixed(1).replace('.',',')}% dell'anno</span><span>€${ann25Marg.toLocaleString('it-IT')}</span></div>
+    </div>
+    <div class="progress-card anim-card">
+      <div class="progress-header">
+        <span class="progress-title">Utile Esercizio YTD vs 2025</span>
+        <span class="progress-vals"><strong>${fmt(ytdUt26)}</strong> / €${M25.ann.utile.toLocaleString('it-IT')}</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill amber" data-pct="${pUt}"></div></div>
+      <div class="progress-legend"><span>0</span><span>${pUt.toFixed(1).replace('.',',')}% dell'anno</span><span>€${M25.ann.utile.toLocaleString('it-IT')}</span></div>
+    </div>`;
+}
+
+function buildDeltaKpiGrid() {
+  const grid = document.getElementById('deltaKpiGrid');
+  if (!grid) return;
+  let html = '';
+  for (let i = 0; i < N26; i++) {
+    const fatM26 = fatTot26[i]||0, fatM25 = fatTot25[i]||0;
+    const cdM26  = cdTot26[i]||0,  ciM26  = ciTot26[i]||0;
+    const cdM25  = cdTot25[i]||0,  ciM25  = ciTot25[i]||0;
+    const margM26    = fatM26 - cdM26;
+    const margM25    = fatM25 - cdM25;
+    const margPctM26 = fatM26>0 ? +(margM26/fatM26*100).toFixed(1) : 0;
+    const margPctM25 = fatM25>0 ? +(margM25/fatM25*100).toFixed(1) : 0;
+    const utM26  = fatM26 - cdM26 - ciM26 + (M26.imposte[i]||0);
+    const utM25  = fatM25 - cdM25 - ciM25 + (M25.imposte[i]||0);
+    const hasPY  = fatM25 > 0;
+    const dFatPct = hasPY ? +((fatM26/(fatM25||1)-1)*100).toFixed(1) : null;
+    const l = ML[i];
+
+    html += `
+      <div class="kpi-card blue anim-card" style="padding:15px 18px">
+        <div class="kpi-label">Δ Fatturato ${l}</div>
+        <div class="kpi-value" style="font-size:20px;color:var(--${dFatPct!==null&&dFatPct>=0?'green':'red'})">${dFatPct!==null?(dFatPct>=0?'+':'')+dFatPct.toFixed(1).replace('.',',')+'%':'—'}</div>
+        <div class="kpi-sub">${hasPY?fmtN(fatM26-fatM25)+' vs 2025':'Dati 2025 N/D'}</div>
+      </div>
+      <div class="kpi-card green anim-card" style="padding:15px 18px">
+        <div class="kpi-label">Margine ${l} 2026</div>
+        <div class="kpi-value" style="font-size:20px;color:var(--${margPctM26>=(margPctM25||0)?'green':'red'})">${margPctM26.toFixed(1).replace('.',',')}%</div>
+        <div class="kpi-sub">${hasPY?'era '+margPctM25.toFixed(1).replace('.',',')+'% nel 2025':'Dati 2025 N/D'}</div>
+      </div>
+      <div class="kpi-card amber anim-card" style="padding:15px 18px">
+        <div class="kpi-label">Utile ${l} 2026</div>
+        <div class="kpi-value" style="font-size:20px;color:var(--${utM26>=0?'green':'red'})" data-count="${utM26}" data-prefix="€">${fmt(utM26)}</div>
+        <div class="kpi-sub">${hasPY?'era '+fmt(utM25)+' nel 2025':'Dati 2025 N/D'}</div>
+      </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function updateDynamicUI() {
+  // Header
+  const mesiLabel = N26===1 ? ML[0] : ML[0]+'–'+ML[N26-1];
+  const el = document.getElementById('headerSubtitle');
+  if (el) el.textContent = `Report comparativo 2026 vs 2025 · Dati effettivi: ${mesiLabel} 2026`;
+  const badge = document.getElementById('headerBadge');
+  if (badge) badge.textContent = ML[N26-1] + ' 2026';
+
+  // Mini-KPI strip
+  const dFatPct = +((ytdFat26/(ytdFat25||1)-1)*100).toFixed(1);
+  const mini = (id, val) => { const e=document.getElementById(id); if(e) e.textContent=val; };
+  mini('miniKpiFat',   '€'+ytdFat26.toLocaleString('it-IT'));
+  mini('miniKpiMarg',  ytdMargPct26.toFixed(1).replace('.',',')+  '%');
+  mini('miniKpiUt',    '€'+ytdUt26.toLocaleString('it-IT'));
+  mini('miniKpiDelta', (dFatPct>=0?'+':'')+dFatPct.toFixed(1).replace('.',',')+'%');
+
+  // Rebuild dynamic sections
+  buildProgressSection();
+  buildMainKpiGrid();
+  buildDeltaKpiGrid();
+}
+
 // ═══════════════════ INIT ═══════════════════
+updateDynamicUI();    // header, KPI cards, progress bars, delta cards
 updateRicaviCharts();
 buildTbodyRicavi();
 buildTbodyCosti();
@@ -1986,7 +2249,7 @@ buildVariance();
 buildCECompleto();
 injectNoteBtns();
 buildExecCharts();
-buildWaterfallToggle('gen');
+buildWaterfallBtns(); // waterfall toggle buttons + chart
 buildTimeline();
 buildProiezione();
 animateProgressBars();
